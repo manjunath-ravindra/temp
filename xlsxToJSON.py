@@ -56,8 +56,7 @@ def xlsx_to_json(xlsx_file, json_directory, proj_num):
         pipe_name= pipe_id[0].replace('/', '_').replace(' ', '')
         pipe_fullname =  pipe_name+ "End" +pipe_end[0]
 
-        filename = os.path.join(json_directory, f'{pipe_fullname}.json')    
-        print(filename)    
+        filename = os.path.join(json_directory, f'{pipe_fullname}.json')
         row_to_json(row, json_directory, filename,proj_num,pipe_name , pipe_end[0])
 
 if __name__ == "__main__":
