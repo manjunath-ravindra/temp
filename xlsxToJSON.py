@@ -2,27 +2,24 @@ import pandas as pd
 import json
 import os
 
-def row_to_json(row, json_directory, filename):
-    # Extract values from columns C to MX
-    values = row.iloc[2:362]  # Exclude the first two columns (assuming 0-based indexing)
-
-    # Convert non-null numeric values to a list
+def row_to_json(row, json_directory, filename,proj_num, pipe_name, pipe_end):
+    values = row.iloc[2:362]
     values_list = [float(value) for value in values if pd.notnull(value) and isinstance(value, (int, float))]
 
-    # Create dictionary with 'radius' key and values list
-    data = {"fileInfo":{
+    data = {
+    "fileInfo":{
         "Ver":"1.0"
         },
     "projectInfo":{
-        "project_num":"11",
+        "project_num":proj_num,
         "project_name":"abc",
         "customer_name":"Reliance",
         "project_manager":"Robin"
         },
     "pipeinfo":{
-        "group_id":"SC20L",
-        "pipe_name":"0021",
-        "pipe_end":"EndB",
+        "group_id":"0000",
+        "pipe_name":pipe_name+"End"+pipe_end,
+        "pipe_end":"End"+pipe_end,
         "pipe_length":"20",
         "pipe_OD":"508",
         "material":"Glass",
@@ -37,44 +34,36 @@ def row_to_json(row, json_directory, filename):
         "timestamp":"1702903141",
         "technician_name":"Fake Tech"
         },
-        'radius': values_list}
-    
-    # Write the data to a JSON file
+    "Data":{
+        "radius":values_list,
+        "phi":[
+            "-3.141593","-3.124091","-3.106589","-3.089087","-3.071585","-3.054083","-3.036581","-3.019079","-3.001577","-2.984075","-2.966574","-2.949072","-2.93157","-2.914068","-2.896566","-2.879064","-2.861562","-2.84406","-2.826558","-2.809056","-2.791554","-2.774053","-2.756551","-2.739049","-2.721547","-2.704045","-2.686543","-2.669041","-2.651539","-2.634037","-2.616535","-2.599033","-2.581532","-2.56403","-2.546528","-2.529026","-2.511524","-2.494022","-2.47652","-2.459018","-2.441516","-2.424014","-2.406512","-2.389011","-2.371509","-2.354007","-2.336505","-2.319003","-2.301501","-2.283999","-2.266497","-2.248995","-2.231493","-2.213991","-2.19649","-2.178988","-2.161486","-2.143984","-2.126482","-2.10898","-2.091478","-2.073976","-2.056474","-2.038972","-2.02147","-2.003969","-1.986467","-1.968965","-1.951463","-1.933961","-1.916459","-1.898957","-1.881455","-1.863953","-1.846451","-1.828949","-1.811448","-1.793946","-1.776444","-1.758942","-1.74144","-1.723938","-1.706436","-1.688934","-1.671432","-1.65393","-1.636428","-1.618927","-1.601425","-1.583923","-1.566421","-1.548919","-1.531417","-1.513915","-1.496413","-1.478911","-1.461409","-1.443907","-1.426406","-1.408904","-1.391402","-1.3739","-1.356398","-1.338896","-1.321394","-1.303892","-1.28639","-1.268888","-1.251386","-1.233885","-1.216383","-1.198881","-1.181379","-1.163877","-1.146375","-1.128873","-1.111371","-1.093869","-1.076367","-1.058865","-1.041364","-1.023862","-1.00636","-0.988858","-0.971356","-0.953854","-0.936352","-0.91885","-0.901348","-0.883846","-0.866344","-0.848843","-0.831341","-0.813839","-0.796337","-0.778835","-0.761333","-0.743831","-0.726329","-0.708827","-0.691325","-0.673823","-0.656322","-0.63882","-0.621318","-0.603816","-0.586314","-0.568812","-0.55131","-0.533808","-0.516306","-0.498804","-0.481302","-0.463801","-0.446299","-0.428797","-0.411295","-0.393793","-0.376291","-0.358789","-0.341287","-0.323785","-0.306283","-0.288781","-0.27128","-0.253778","-0.236276","-0.218774","-0.201272","-0.18377","-0.166268","-0.148766","-0.131264","-0.113762","-0.09626","-0.078759","-0.061257","-0.043755","-0.026253","-0.008751","0.008751","0.026253","0.043755","0.061257","0.078759","0.09626","0.113762","0.131264","0.148766","0.166268","0.18377","0.201272","0.218774","0.236276","0.253778","0.27128","0.288781","0.306283","0.323785","0.341287","0.358789","0.376291","0.393793","0.411295","0.428797","0.446299","0.463801","0.481302","0.498804","0.516306","0.533808","0.55131","0.568812","0.586314","0.603816","0.621318","0.63882","0.656322","0.673823","0.691325","0.708827","0.726329","0.743831","0.761333","0.778835","0.796337","0.813839","0.831341","0.848843","0.866344","0.883846","0.901348","0.91885","0.936352","0.953854","0.971356","0.988858","1.00636","1.023862","1.041364","1.058865","1.076367","1.093869","1.111371","1.128873","1.146375","1.163877","1.181379","1.198881","1.216383","1.233885","1.251386","1.268888","1.28639","1.303892","1.321394","1.338896","1.356398","1.3739","1.391402","1.408904","1.426406","1.443907","1.461409","1.478911","1.496413","1.513915","1.531417","1.548919","1.566421","1.583923","1.601425","1.618927","1.636428","1.65393","1.671432","1.688934","1.706436","1.723938","1.74144","1.758942","1.776444","1.793946","1.811448","1.828949","1.846451","1.863953","1.881455","1.898957","1.916459","1.933961","1.951463","1.968965","1.986467","2.003969","2.02147","2.038972","2.056474","2.073976","2.091478","2.10898","2.126482","2.143984","2.161486","2.178988","2.19649","2.213991","2.231493","2.248995","2.266497","2.283999","2.301501","2.319003","2.336505","2.354007","2.371509","2.389011","2.406512","2.424014","2.441516","2.459018","2.47652","2.494022","2.511524","2.529026","2.546528","2.56403","2.581532","2.599033","2.616535","2.634037","2.651539","2.669041","2.686543","2.704045","2.721547","2.739049","2.756551","2.774053","2.791554","2.809056","2.826558","2.84406","2.861562","2.879064","2.896566","2.914068","2.93157","2.949072","2.966574","2.984075","3.001577","3.019079","3.036581","3.054083","3.071585","3.089087","3.106589","3.124091","3.141593"]
+        }
+  }
+
     with open(filename, 'w') as jsonfile:
         jsonfile.write(json.dumps(data, indent=4))
 
-def xlsx_to_json(xlsx_file, json_directory):
-    # Read the Excel file into a DataFrame
-    df = pd.read_excel(xlsx_file, header=None)  # Avoids treating the first row as header
-    # print(df)
+def xlsx_to_json(xlsx_file, json_directory, proj_num):
+    df = pd.read_excel(xlsx_file, header=None)
+    df = df.dropna(how='all') 
 
-    # Drop rows where all values are NaN (empty rows)
-    df = df.dropna(how='all')
-
-    # Iterate over each row in the DataFrame, excluding the first row
     for index, row in df.iloc[1:].iterrows():
-        # Generate custom filename based on the row index
-        pipe_ids = df.iloc[1:, 0].tolist()
-        pipe_ends = df.iloc[1:, 1].tolist()
-        # print(pipe_ends)
+    
+        pipe_id = row.iloc[0:1].tolist()
+        pipe_end = row.iloc[1:2].tolist()
+        
+        pipe_name= pipe_id[0].replace('/', '_').replace(' ', '')
+        pipe_fullname =  pipe_name+ "End" +pipe_end[0]
 
-        # Iterate through each file name in the list
-        for i in range(len(pipe_ids)):
-            # Replace forward slashes with underscores and remove spaces
-            pipe_ids[i] = pipe_ids[i].replace('/', '_').replace(' ', '')
-            pipe_ids[i]= pipe_ids[i]+ "End"+ pipe_ends[i]
-
-        print(pipe_ids)
-
-        filename = os.path.join(json_directory, f'{pipe_ids[index-4]}.json')
-        # Convert and save each row as a separate JSON file with custom name
-        row_to_json(row, json_directory, filename)
+        filename = os.path.join(json_directory, f'{pipe_fullname}.json')    
+        print(filename)    
+        row_to_json(row, json_directory, filename,proj_num,pipe_name , pipe_end[0])
 
 if __name__ == "__main__":
-    xlsx_file = ".\\Input\\temp.xlsx"  # Change this to your XLSX file
-    json_directory = '.\\Output\\json_files'  # Directory to store individual JSON files
+    xlsx_file = ".\\Input\\temp.xlsx"
+    json_directory = '.\\Output\\JSON'
 
-    # Create the directory if it doesn't exist
     os.makedirs(json_directory, exist_ok=True)
-
-    xlsx_to_json(xlsx_file, json_directory)
+    proj_num = input("Enter Project Number : ")
+    xlsx_to_json(xlsx_file, json_directory, proj_num)
