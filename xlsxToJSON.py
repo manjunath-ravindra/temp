@@ -60,7 +60,7 @@ def xlsx_to_json(xlsx_file, json_directory, proj_num):
         row_to_json(row, json_directory, filename,proj_num,pipe_name , pipe_end[0])
 
 if __name__ == "__main__":
-    xlsx_file = ".\\Input\\temp.xlsx"
+    xlsx_file = ".\\Input\\LAP Laser export template_27_12_23.xlsx"
     json_directory = '.\\Output\\JSON'
 
     os.makedirs(json_directory, exist_ok=True)
