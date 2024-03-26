@@ -2,7 +2,7 @@ import pandas as pd
 import json
 import os
 
-def row_to_json(row, json_directory):
+def row_to_json(row, json_directory, filename):
     # Extract values from columns C to MX
     values = row.iloc[2:362]  # Exclude the first two columns (assuming 0-based indexing)
 
@@ -11,12 +11,6 @@ def row_to_json(row, json_directory):
 
     # Create dictionary with 'radius' key and values list
     data = {'radius': values_list}
-    
-    # Get the index of the row
-    index = row.name
-    
-    # Create a filename based on the row index
-    filename = os.path.join(json_directory, f'row_{index}.json')
     
     # Write the data to a JSON file
     with open(filename, 'w') as jsonfile:
@@ -32,8 +26,11 @@ def xlsx_to_json(xlsx_file, json_directory):
 
     # Iterate over each row in the DataFrame, excluding the first row
     for index, row in df.iloc[1:].iterrows():
-        # Convert and save each row as a separate JSON file
-        row_to_json(row, json_directory)
+        # Generate custom filename based on the row index
+  
+        filename = os.path.join(json_directory, f'{index}.json')
+        # Convert and save each row as a separate JSON file with custom name
+        row_to_json(row, json_directory, filename)
 
 if __name__ == "__main__":
     xlsx_file = ".\\Input\\temp.xlsx"  # Change this to your XLSX file
