@@ -4,7 +4,7 @@ import os
 
 def row_to_json(row, json_directory):
     # Extract values from columns C to MX
-    values = row.iloc[2:]  # Exclude the first two columns (assuming 0-based indexing)
+    values = row.iloc[2:362]  # Exclude the first two columns (assuming 0-based indexing)
 
     # Convert non-null numeric values to a list
     values_list = [float(value) for value in values if pd.notnull(value) and isinstance(value, (int, float))]
